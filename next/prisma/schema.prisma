@@ -22,6 +22,10 @@ model Wallet {
     address String @id
     name String
     highlight String
+    chainId Int
+    lastTimestamp DateTime?
+    createdAt DateTime @default(now())
+    priorityLevel Int @default(0)
     userId  String
     user   User   @relation(fields: [userId], references: [id])
 }
