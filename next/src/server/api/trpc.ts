@@ -17,7 +17,8 @@
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 
 import { prisma } from "~/server/db";
-import {getAuth} from "@clerk/nextjs/server";
+import { getAuth } from "@clerk/nextjs/server";
+import { trackerService } from "./trackerService";
 
 // type CreateContextOptions = Record<string, never>;
 
@@ -52,6 +53,7 @@ export const createTRPCContext = (_opts: CreateNextContextOptions) => {
   return {
     prisma,
     userId,
+    trackerService,
   };
 };
 

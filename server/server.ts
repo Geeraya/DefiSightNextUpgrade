@@ -1,15 +1,14 @@
-const express = require("express");
-const dotenv = require("dotenv");
+import { publicProcedure, router } from "./trpc.ts";
+import { createHTTPServer } from "@trpc/server/adapters/standalone";
+import { z } from "zod";
+import { trackingRouter } from "./trackingRouter.ts";
 
-dotenv.config();
+const appRouter = trackingRouter;
 
-const app = express();
-const port = process.env.PORT;
-
-app.get("/", (req, res) => {
-  res.send("Express + TypeScript Server");
+const server = createHTTPServer({
+  router: appRouter,
 });
 
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
-});
+server.listen(3001);
+
+export type AppRouter = typeof appRouter;

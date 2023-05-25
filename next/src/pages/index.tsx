@@ -7,8 +7,14 @@ import Link from "next/link";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const { data, isFetched } = api.example.hello.useQuery({
+    text: "Hello World!",
+  });
   const { user } = useUser();
+
+  if (data) {
+    console.log(data);
+  }
 
   return (
     <>

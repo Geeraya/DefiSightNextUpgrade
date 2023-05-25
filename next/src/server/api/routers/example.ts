@@ -5,12 +5,16 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 export const exampleRouter = createTRPCRouter({
   hello: publicProcedure
     .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
+    .query(async ({ input, ctx }) => {
+      const res = await ctx.trackerService.add.query({
+        userId: "userId",
+        walletAddress: "walletAddress",
+        walletChainId: 1,
+        walletTag: "walletTag",
+        walletHighlight: "red",
+      });
       return {
-        greeting: `Hello ${input.text}`,
+        greeting: `${res.status}}`,
       };
     }),
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.example.findMany();
-  }),
 });
