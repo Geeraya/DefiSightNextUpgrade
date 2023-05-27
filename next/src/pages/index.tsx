@@ -2,12 +2,11 @@ import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
+import WalletForm from "~/components/walletForm";
 
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const { mutate } = api.wallet.add.useMutation();
   const { user } = useUser();
 
   return (
@@ -27,29 +26,7 @@ const Home: NextPage = () => {
             }}
           />
         )}
-        <form
-          className="flex flex-col"
-          onSubmit={(e) => {
-            e.preventDefault();
-            console.log(e.target.address.value);
-          }}
-        >
-          <div className="m-1">
-            <input type="text" id="address" minLength={10} />
-          </div>
-          <div className="m-1">
-            <input type="text" id="chainId" />
-          </div>
-          <div className="m-1">
-            <input type="text" id="tag" />
-          </div>
-          <div className="m-1">
-            <input type="text" id="highlight" />
-          </div>
-          <div className="m-1">
-            <button type="submit">Submit</button>
-          </div>
-        </form>
+        <WalletForm />
       </main>
     </>
   );
