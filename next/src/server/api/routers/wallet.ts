@@ -32,11 +32,7 @@ export const walletRouter = createTRPCRouter({
           tag: input.walletTag,
           highlight: input.walletHighlight,
           chainId: input.walletChainId,
-          user: {
-            connect: {
-              id: ctx.userId,
-            },
-          },
+          userId: ctx.userId,
         },
       });
       return { status: "success" };

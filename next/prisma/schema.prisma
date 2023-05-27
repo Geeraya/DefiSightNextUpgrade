@@ -10,14 +10,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model User {
-    id        String   @id @default(cuid())
-    joinedAt DateTime @default(now())
-    isAdmin   Boolean  @default(false)
-    subscriptionEnd DateTime?
-    trackedWallets Wallet[]
-}
-
 model Wallet {
     address String @id
     tag String
@@ -27,5 +19,4 @@ model Wallet {
     createdAt DateTime @default(now())
     priorityLevel Int @default(0)
     userId  String
-    user   User   @relation(fields: [userId], references: [id])
 }

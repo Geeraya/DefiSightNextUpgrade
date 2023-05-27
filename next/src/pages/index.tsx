@@ -2,7 +2,7 @@ import { SignInButton, UserButton, useUser } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { type NextPage } from "next";
 import Head from "next/head";
-import WalletForm from "~/components/walletForm";
+import WalletForm from "~/components/WalletForm";
 
 import { api } from "~/utils/api";
 

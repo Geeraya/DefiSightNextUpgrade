@@ -4,12 +4,9 @@ import { api } from "~/utils/api";
 import { z } from "zod";
 
 const walletSchema = z.object({
-  address: z
-    .string()
-    .length(42, { message: "Invalid address" })
-    .regex(/^0x[a-fA-F0-9]+$/, { message: "Invalid address" }),
+  address: z.string().regex(/^0x[a-fA-F0-9]+$/, { message: "Invalid address" }),
   chainId: z.number(),
-  tag: z.string().min(1).max(20),
+  tag: z.string().min(1, { message: "Please define a tag." }).max(20),
   highlight: z.enum(["red", "green", "blue", "yellow"]),
 });
 
@@ -18,12 +15,12 @@ function WalletForm() {
 
   const [formErrors, setFormErrors] = useState({
     address: "",
-    highlight: "",
+    tag: "",
   });
 
   const [walletInfo, setWalletInfo] = useState({
     address: "0x",
-    chainId: 1,
+    chainId: 11155111,
     tag: "",
     highlight: "red",
   });
@@ -42,6 +39,13 @@ function WalletForm() {
       v = value;
     }
 
+    // Reset the error message for the field
+    setFormErrors((prevFormErrors) => ({
+      ...prevFormErrors,
+      [name]: "",
+    }));
+
+    // Update the walletInfo state
     setWalletInfo((prevWalletInfo) => ({
       ...prevWalletInfo,
       [name]: v,
@@ -49,10 +53,26 @@ function WalletForm() {
   }
 
   function handleSubmit() {
-    const validate = walletSchema.safeParse(walletInfo);
-    console.log(walletInfo);
-
-    console.log(validate);
+    try {
+      // Validate the walletInfo object against the schema
+      const validatedInfo = walletSchema.parse(walletInfo);
+      // If the validation passes, then we can call the mutate function
+      mutate({
+        walletAddress: validatedInfo.address,
+        walletChainId: validatedInfo.chainId,
+        walletTag: validatedInfo.tag,
+        walletHighlight: validatedInfo.highlight,
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        // If the error is a ZodError, then we can flatten it to get the field errors
+        const errors = error.flatten();
+        setFormErrors((prevFormErrors) => ({
+          ...prevFormErrors,
+          ...errors.fieldErrors,
+        }));
+      }
+    }
   }
 
   return (
@@ -64,8 +84,11 @@ function WalletForm() {
         onChange={handleChange}
         value={walletInfo.address}
       />
+      {formErrors["address"] && (
+        <label className="text-red-500">{formErrors["address"]}</label>
+      )}
       <label className="text-white">Chain</label>
-      <select name="chainId" onChange={handleChange}>
+      <select name="chainId" onChange={handleChange} value={walletInfo.chainId}>
         <option value={1} defaultChecked>
           Ethereum Mainnet
         </option>
@@ -76,7 +99,15 @@ function WalletForm() {
         <option value={11155111}>Sepolia Testnet</option>
       </select>
       <label className="text-white">Tag</label>
-      <input name="tag" onChange={handleChange} value={walletInfo.tag} />
+      <input
+        name="tag"
+        onChange={handleChange}
+        value={walletInfo.tag}
+        maxLength={20}
+      />
+      {formErrors["tag"] && (
+        <label className="text-red-500">{formErrors["tag"]}</label>
+      )}
       <label className="text-white">Highlight</label>
       <select name="highlight" onChange={handleChange}>
         <option value="red">Red</option>
