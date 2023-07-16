@@ -1,28 +1,23 @@
-# Create T3 App
+## TODO's:
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+- Create wallet-tracker service:
 
-## What's next? How do I make an app with this?
+  1. Connect service to database.
+  2. Add functions to get, post, put and delete wallets.
+  3. Create connections to various chain scanners.
+  4. Get providers to interact with various chains.
+  5. Create initialisation functionality:
+     1. Get all the wallets to track from the database, keep them.
+     2. Get all the balances of the wallets, keep them.
+  6. Create tracking functionality:
+     1. For every chain create a listener.
+     2. On every new block check if default chain balance of that wallet has changed.
+  7. Update wallet router to interact with fetched wallets and balances, so that the service can function indefinitely.
+  8. **Error handling!**
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
-
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
-
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
-
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
-
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
-
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+- Create notification functionality:
+  1. Create a notification service:
+     1. TODO: Requirements and possibilities.
+  2. Create a notification UI on the frontend.
+  3. Connect next frontend and notification service.
+  4. Connect wallet-tracker service and notification service.

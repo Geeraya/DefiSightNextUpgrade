@@ -73,7 +73,7 @@ function WalletForm() {
       <DialogTrigger asChild>
         <Button onClick={() => setDialogOpen(true)}>
           <PlusCircle className="mr-2 h-4 w-4" />
-          Add a new wallet
+          New Wallet
         </Button>
       </DialogTrigger>
       <DialogContent>
