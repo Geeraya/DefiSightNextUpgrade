@@ -1,15 +1,12 @@
 import { router, publicProcedure } from "./trpc.ts";
 import { z } from "zod";
+import { addWalletSchema } from "./validation/walletSchema.ts";
 
 export const trackingRouter = router({
   add: publicProcedure
     .input(
-      z.object({
+      addWalletSchema.extend({
         userId: z.string(),
-        walletAddress: z.string(),
-        walletChainId: z.number(),
-        walletTag: z.string(),
-        walletHighlight: z.enum(["red", "green", "blue", "yellow"]),
       })
     )
     .output(z.object({ status: z.string() }))

@@ -1,18 +1,15 @@
+// TODO: Delete procedure
+// TODO: Update procedure?
+
 import { TRPCError } from "@trpc/server";
-import { z } from "zod";
 
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 
+import { addWalletSchema } from "@/validation/walletSchema";
+
 export const walletRouter = createTRPCRouter({
   add: privateProcedure
-    .input(
-      z.object({
-        walletAddress: z.string(),
-        walletTag: z.string(),
-        walletHighlight: z.enum(["red", "green", "blue", "yellow"]),
-        walletChainId: z.number(),
-      })
-    )
+    .input(addWalletSchema)
     .mutation(async ({ input, ctx }) => {
       const res = await ctx.trackerService.add.query({
         ...input,
@@ -26,15 +23,18 @@ export const walletRouter = createTRPCRouter({
         });
       }
 
-      await ctx.prisma.wallet.create({
-        data: {
-          address: input.walletAddress,
-          tag: input.walletTag,
-          highlight: input.walletHighlight,
-          chainId: input.walletChainId,
-          userId: ctx.userId,
-        },
-      });
+      // await ctx.prisma.wallet.create({
+      //   data: {
+      //     address: input.address,
+      //     tag: input.tag,
+      //     highlight: input.highlight,
+      //     chainId: input.chainId,
+      //     userId: ctx.userId,
+      //   },
+      // });
+      console.log("walletRouter.add", input);
+      // delay
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       return { status: "success" };
     }),
 });

@@ -14,7 +14,7 @@ model Wallet {
     address String @id
     tag String
     highlight String
-    chainId Int
+    chainId String
     lastTimestamp DateTime?
     createdAt DateTime @default(now())
     priorityLevel Int @default(0)
